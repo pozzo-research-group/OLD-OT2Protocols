@@ -1,0 +1,5 @@
+11/3/2019 KJL
+Group wide:
+-Have group members clone this repository and make a contribution, e.g. share a piece of code, or contribute to this task list. 
+-Decide whether to include Peek students in this github. 
+-Start sharing classes, functions, and asking questions about each other's code. 
