@@ -4,8 +4,7 @@ Group wide:
  piece of code, or contribute to this task list.
 -Decide whether to include Peek students in this github.
 -Start sharing classes, functions, and asking questions about each other's code.
-
-
+11/5/2019 SCS
 - Determine how updates/standards for protocols/notebooks/functions will be
 shared or published
-- 
+-
