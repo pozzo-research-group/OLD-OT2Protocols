@@ -63,6 +63,7 @@ def main(reagent_pos, reagent_volume, well_plate_list, starting_position):
 
 #Import Dependencies
 from opentrons import labware, instruments, robot
+import numpy as np
 ################################################################################
 #Importing labware
 tiprack_300 = labware.load("opentrons-tiprack-300ul", '10') # 300ul tips can be used for P300 and P50 pipettes
