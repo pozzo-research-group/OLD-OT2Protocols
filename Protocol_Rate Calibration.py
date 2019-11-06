@@ -2,10 +2,13 @@ from opentrons import labware, instruments, robot
 robot.reset()
 robot.home()
 
+# DEFAULT PIPETTE FOR THIS IS THE P1000 - IF YOU NEED TO USE A DIFFERENT
+    #TIP YOU WILL NEED TO USE THE SWAPS IN "Walkthrough_Rate Calibration.ipynb"
+
 #load labware
 tiprack_1000 = labware.load("tiprack-1000ul", '1')
-Stock1 = labware.load("vial-20ml", '2')
-vials = labware.load("vial-20ml", '3') #More scintillation vials
+Stock1 = labware.load("vial-20ml", '2') #scintillation vials
+vials = labware.load("vial-20ml", '3') #scintillation vials
 trash = robot.fixed_trash
 
 P1000 = instruments.P1000_Single(
