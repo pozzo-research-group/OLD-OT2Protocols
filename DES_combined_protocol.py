@@ -68,7 +68,7 @@ import numpy as np
 #Importing labware
 tiprack_300 = labware.load("opentrons-tiprack-300ul", '10') # 300ul tips can be used for P300 and P50 pipettes
 tiprack_300_2 = labware.load("opentrons-tiprack-300ul", '11') # Second tiprack
-stock = labware.load("trough-12row", '7' ) # 12 well resovoir for stocks
+stock = labware.load("trough-12row", '2' ) # 12 well resovoir for stocks
 A_96_well= labware.load("96-flat", '8') # Using 4, 96 wellplates labeled A-D
 B_96_well= labware.load("96-flat", '9')
 C_96_well= labware.load("96-flat", '5')
@@ -98,7 +98,7 @@ volumes = [[7.5,15.0,30.000000000000004,45.00000000000001,51.00000000000001,60.0
 75.0,60.0,44.99999994301515,30.0,15.000000000000002,7.500000000000001]]
 
 #Define mixtures to create. A1-A8 are positions on 12 row trough where the stocks are located.
-mixtures = np.array([['A1', 'A5'], ['A1', 'A6'], ['A1', 'A7'],['A1', 'A8'], ['A2', 'A5']])
+mixtures = np.array([['A1', 'A5'], ['A1', 'A6'], ['A1', 'A7'],['A1', 'A8'], ['A2', 'A5'], ['A2', 'A6'], ['A2', 'A7'], ['A2', 'A8'], ['A3', 'A5'], ['A3', 'A6'], ['A3', 'A7'], ['A3', 'A8'], ['A4', 'A5'], ['A4', 'A6'], ['A4', 'A7'], ['A4', 'A8']])
 
 robot.home()
 
