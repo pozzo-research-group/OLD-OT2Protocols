@@ -1,24 +1,30 @@
 #Class: Components
-#Purpose:
-class Components:
-    def __init__(self, name = 'name', molecular_weight = []):
-        self.name = name
-        self.molecular_weight = molecular_weight
+#Purpose: Ease calling of chemical properties.
 
 
+class Component:
+    """Initialize your components to make calling of chemical properties easier"""
+    def __init__(self,mw, density = 1, name = 'unnamed'):
+#         Initialize properties of component. If density is unknown will default to 1 g/mL
+        self.mw =float(mw)#component molecular weight (g/mol)
+        self.density = float(density) #component density at 298.15 K, in g/mL
+        self.name = str(name)
 
-#Template
-# self = Components(
-#     name = '',
-#     molecular_weight =
-# )
+water = Component(18.01528,density = 0.997, name = 'water')
+ethanol = Component(46.07, density = 0.79,name = 'ethanol')
 
+pfh = Component(338.04, density = 1.67, name = 'pfh')
+dlpc = Component(622.845, name = 'dlpc')
+dmpc = Component(677.93, name = 'dmpc')
+dppc = Component(734.04,name ='dppc')
+dspc = Component(790.145, name ='dspc')
+dspe_peg2000 = Component(2805.5, name = 'dspe_peg2000')
+cholesterol = Component(386.654, name = 'cholesterol')
 
-oleic_acid = Components("oleic_acid", 282.47)
-ethanol = Components("ethanol", 46.07)
-dodecanoic_acid = Components("dodecanoic_acid", 200.32)
-octanoic_acid = Components("octanoic_acid", 144.21)
-geranic_acid = Components("geranic_acid", 168.23)
-candelilla_wax = Components("candelilla_wax")
-light_mineral_oil = Components("light_mineral_oil", 425.363)
-heavy_mineral_oil = Components("heavy_mineral_oil", 452.363)
+oleic_acid = Component(282.47, name ="oleic_acid")
+dodecanoic_acid = Component(200.32,name = "dodecanoic_acid")
+octanoic_acid = Component(144.21, name ="octanoic_acid")
+geranic_acid = Component(168.23, name ="geranic_acid")
+candelilla_wax = Component(name ="candelilla_wax")
+light_mineral_oil = Component(425.363,name = "light_mineral_oil")
+heavy_mineral_oil = Component(452.363,name = "heavy_mineral_oil")
