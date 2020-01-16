@@ -23,8 +23,8 @@ class A1Stock:
         self.componentA = components_dict['A']
         self.solvent1 = components_dict['solvent1']
 
-        self.wt_f_componentA = wt_f_dict['A']
-        self.wt_f_solvent1 = wt_f_dict['solvent1']
+        self.componentA_wtf = wt_f_dict['A']
+        self.solvent1_wtf = wt_f_dict['solvent1']
         
         self.density = self.solvent1.density #Approximate density as density of solvent1 for now. 
     def real_init(self):
