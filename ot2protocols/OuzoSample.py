@@ -7,20 +7,20 @@ class OuzoSample:
     components_dict - dictionary pointing to Component objects with context specific roles
     e.g. {'hydrophobe':Component, 'organic_solvent':Component, 'water':Component, 'stabilizer1':Component}
     
-    wt_f_dict - dictionary which ties components to their respective weight fractions:
+    wtf_dict - dictionary which ties components to their respective weight fractions:
     e.g. {'hydrophobe':float, 'organic_solvent':float...'water':None}
     
     '''
-    def __init__(self, mass = None, components_dict ={}, wt_f_dict ={}, density = None, stock_dict ={}):
+    def __init__(self, mass = None, components_dict ={}, wtf_dict ={}, density = None, stock_dict ={}):
         self.hydrophobe = components_dict['hydrophobe']
         self.organic_solvent = components_dict['organic_solvent']
         self.stabilizer1 = components_dict['stabilizer1']
         self.water = components_dict['water']
         
-        self.hydrophobe_wtf = wt_f_dict['hydrophobe']
-        self.organic_solvent_wtf = wt_f_dict['organic_solvent']
-        self.stabilizer1_wtf = wt_f_dict['stabilizer1']
-        self.water_wtf = wt_f_dict['water']
+        self.hydrophobe_wtf = wtf_dict['hydrophobe']
+        self.organic_solvent_wtf = wtf_dict['organic_solvent']
+        self.stabilizer1_wtf = wtf_dict['stabilizer1']
+        self.water_wtf = wtf_dict['water']
         
         self.hydrophobe_stock =stock_dict['hydrophobe'] 
         self.organic_solvent_stock =stock_dict['organic_solvent'] 
@@ -45,17 +45,15 @@ class OuzoSample:
         self.water_dict = {'component':self.water,
         'component_mass':self.water_mass, 'component_stock':self.water_stock, 'component_wtf':self.water_wtf}
 
-     
+        self.additional_water_mass = self.water_mass
         self.additional_organic_solvent_mass = self.organic_solvent_mass
         if self.hydrophobe_stock.solvent == self.organic_solvent:
             self.source_organic(self.hydrophobe_dict)
         
-        self.additional_water_mass = self.water_mass
         if self.stabilizer1.solvent == self.water:
-            self.source_aq(self.stabilizer1_dict)
-            self.make_prestock(self.stabilizer1_dict)
+            self.source_aq(self.stabilizer1_dict, prestock=True)
 
-    def source_aq(self,dict_to_source):
+    def source_aq(self,dict_to_source, prestock):
         '''
         Update dictionary that tracks paremeters associated with this component with how much water/aq stock is necessary to make sample, 
         and simultaneously track how this affects solvent volume
@@ -68,7 +66,10 @@ class OuzoSample:
 
         dict_to_source['total_stock_mass']=total_stock_mass
         dict_to_source['solvent_stock_mass']=solvent_stock_mass
-        self.additional_water_mass -= solvent_stock_mass
+        if prestock == True:
+            dict_to_source['aq_prestock'] = self.make_aq_prestock(dict_to_source)
+        else:
+            self.additional_water_mass -= solvent_stock_mass
         return
     
     def source_organic(self, dict_to_source):
@@ -85,8 +86,36 @@ class OuzoSample:
         dict_to_source['total_stock_mass']=total_stock_mass
         dict_to_source['solvent_stock_mass']=solvent_stock_mass
         self.additional_organic_solvent_mass -= solvent_stock_mass
-
         return 
+
+    def make_aq_prestock(self, dict_for_prestock):
+        dead_prestock_weight = 0.2 #Hard coded value for making slight excess of prestock, so that air is not aspirated
+
+        min_component_mass = dict_for_prestock['component_mass']
+        component_stock = dict_for_prestock['component_stock']
+        prestock_component_wtf = min_component_mass/self.water_mass
+        min_prestock_mass = sum(min_component_mass, self.water_mass)
+        scaled_prestock_mass = dead_prestock_weight + min_prestock_mass
+        
+        #Since we're creating more than we need, we need to draw more from master stock, than if we were adding directly to sample
+        presetock_component_mass = scaled_prestock_mass*prestock_component_wtf
+        total_stock_mass  = presetock_component_mass/component_stock.componentA_wtf
+        solvent_stock_mass = total_stock_mass-presetock_component_mass
+        additional_solvent_mass = scaled_prestock_mass-solvent_stock_mass-presetock_component_mass
+        
+        if additional_solvent_mass == (scaled_prestock_mass*(1-prestock_component_wtf)):
+            print("Prestock math might be ok")
+        else:
+            print("Warning, additional_solvent_mass to make prestock seems off=  ", additional_solvent_mass)
+
+        self.hydrophobe_dict = {'component':self.hydrophobe,'component_mass':self.hydrophobe_mass, 
+        'component_stock':self.hydrophobe_stock, 'component_wtf':self.hydrophobe_wtf}
+
+        aq_prestock = {'prestock_component_mass':prestock_component_mass, 'prestock_component_wtf':prestock_component_wtf, 
+        'total_stock_mass':total_stock_mass, 'solvent_stock_mass':solvent_stock_mass, 'additional_solvent_mass:'additional_solvent_mass}
+
+        return aq_prestock
+
 
 
                 
